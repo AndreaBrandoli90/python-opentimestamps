@@ -234,7 +234,7 @@ class Timestamp:
                 if attestation.__class__ == BitcoinBlockHeaderAttestation:
                     r += " "*indent + "# Bitcoin block merkle root " + b2lx(self.msg) + "\n"
                 elif attestation.__class__ == BitcoinTestnetBlockHeaderAttestation:
-                    r += " "*indent + "# Bitcoin Testnet block merkle root " + b2lx(self.msg) + "\n"
+                    r += " "*indent + "# BitcoinTestnet block merkle root " + b2lx(self.msg) + "\n"
                 if attestation.__class__ == LitecoinBlockHeaderAttestation:
                     r += " "*indent + "# Litecoin block merkle root " + b2lx(self.msg) + "\n"
 

@@ -120,13 +120,13 @@ class UnknownAttestation(TimeAttestation):
         if other.__class__ is UnknownAttestation:
             return self.TAG == other.TAG and self.payload == other.payload
         else:
-            super().__eq__(other)
+            return super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is UnknownAttestation:
-            return (self.tag, self.payload) < (other.tag, other.payload)
+            return (self.TAG, self.payload) < (other.TAG, other.payload)
         else:
-            super().__eq__(other)
+            return super().__lt__(other)
 
     def __hash__(self):
         return hash((self.TAG, self.payload))
@@ -200,14 +200,14 @@ class PendingAttestation(TimeAttestation):
         if other.__class__ is PendingAttestation:
             return self.uri == other.uri
         else:
-            super().__eq__(other)
+            return super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is PendingAttestation:
             return self.uri < other.uri
 
         else:
-            super().__eq__(other)
+            return super().__lt__(other)
 
     def __hash__(self):
         return hash(self.uri)
@@ -263,14 +263,14 @@ class BitcoinBlockHeaderAttestation(TimeAttestation):
         if other.__class__ is BitcoinBlockHeaderAttestation:
             return self.height == other.height
         else:
-            super().__eq__(other)
+            return super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is BitcoinBlockHeaderAttestation:
             return self.height < other.height
 
         else:
-            super().__eq__(other)
+            return super().__lt__(other)
 
     def __hash__(self):
         return hash(self.height)
@@ -310,14 +310,14 @@ class BitcoinTestnetBlockHeaderAttestation(BitcoinBlockHeaderAttestation):
         if other.__class__ is BitcoinTestnetBlockHeaderAttestation:
             return self.height == other.height
         else:
-            super().__eq__(other)
+            return super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is BitcoinTestnetBlockHeaderAttestation:
             return self.height < other.height
 
         else:
-            super().__eq__(other)
+            return super().__lt__(other)
 
     def __hash__(self):
         return hash(self.height)
@@ -345,14 +345,14 @@ class LitecoinBlockHeaderAttestation(TimeAttestation):
         if other.__class__ is LitecoinBlockHeaderAttestation:
             return self.height == other.height
         else:
-            super().__eq__(other)
+            return super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is LitecoinBlockHeaderAttestation:
             return self.height < other.height
 
         else:
-            super().__eq__(other)
+            return super().__lt__(other)
 
     def __hash__(self):
         return hash(self.height)
