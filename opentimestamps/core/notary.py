@@ -79,6 +79,8 @@ class TimeAttestation:
             r = PendingAttestation.deserialize(payload_ctx)
         elif tag == BitcoinBlockHeaderAttestation.TAG:
             r = BitcoinBlockHeaderAttestation.deserialize(payload_ctx)
+        elif tag == BitcoinTestnetBlockHeaderAttestation.TAG:
+            r = BitcoinTestnetBlockHeaderAttestation.deserialize(payload_ctx)
         elif tag == LitecoinBlockHeaderAttestation.TAG:
             r = LitecoinBlockHeaderAttestation.deserialize(payload_ctx)
         elif tag == opentimestamps.core.dubious.notary.EthereumBlockHeaderAttestation.TAG:
@@ -118,13 +120,13 @@ class UnknownAttestation(TimeAttestation):
         if other.__class__ is UnknownAttestation:
             return self.TAG == other.TAG and self.payload == other.payload
         else:
-            return super().__eq__(other)
+            super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is UnknownAttestation:
-            return (self.TAG, self.payload) < (other.TAG, other.payload)
+            return (self.tag, self.payload) < (other.tag, other.payload)
         else:
-            return super().__lt__(other)
+            super().__eq__(other)
 
     def __hash__(self):
         return hash((self.TAG, self.payload))
@@ -198,14 +200,14 @@ class PendingAttestation(TimeAttestation):
         if other.__class__ is PendingAttestation:
             return self.uri == other.uri
         else:
-            return super().__eq__(other)
+            super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is PendingAttestation:
             return self.uri < other.uri
 
         else:
-            return super().__lt__(other)
+            super().__eq__(other)
 
     def __hash__(self):
         return hash(self.uri)
@@ -261,14 +263,14 @@ class BitcoinBlockHeaderAttestation(TimeAttestation):
         if other.__class__ is BitcoinBlockHeaderAttestation:
             return self.height == other.height
         else:
-            return super().__eq__(other)
+            super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is BitcoinBlockHeaderAttestation:
             return self.height < other.height
 
         else:
-            return super().__lt__(other)
+            super().__eq__(other)
 
     def __hash__(self):
         return hash(self.height)
@@ -297,6 +299,37 @@ class BitcoinBlockHeaderAttestation(TimeAttestation):
         height = ctx.read_varuint()
         return BitcoinBlockHeaderAttestation(height)
 
+class BitcoinTestnetBlockHeaderAttestation(BitcoinBlockHeaderAttestation):
+
+    TAG = bytes.fromhex('f4b4a58e553e95b2')
+
+    def __init__(self, height):
+        self.height = height
+
+    def __eq__(self, other):
+        if other.__class__ is BitcoinTestnetBlockHeaderAttestation:
+            return self.height == other.height
+        else:
+            super().__eq__(other)
+
+    def __lt__(self, other):
+        if other.__class__ is BitcoinTestnetBlockHeaderAttestation:
+            return self.height < other.height
+
+        else:
+            super().__eq__(other)
+
+    def __hash__(self):
+        return hash(self.height)
+
+    def __repr__(self):
+        return 'BitcoinTestnetBlockHeaderAttestation(%r)' % self.height
+
+    @classmethod
+    def deserialize(cls, ctx):
+        height = ctx.read_varuint()
+        return BitcoinTestnetBlockHeaderAttestation(height)
+
 class LitecoinBlockHeaderAttestation(TimeAttestation):
     """Signed by the Litecoin blockchain
 
@@ -312,14 +345,14 @@ class LitecoinBlockHeaderAttestation(TimeAttestation):
         if other.__class__ is LitecoinBlockHeaderAttestation:
             return self.height == other.height
         else:
-            return super().__eq__(other)
+            super().__eq__(other)
 
     def __lt__(self, other):
         if other.__class__ is LitecoinBlockHeaderAttestation:
             return self.height < other.height
 
         else:
-            return super().__lt__(other)
+            super().__eq__(other)
 
     def __hash__(self):
         return hash(self.height)
